@@ -10,7 +10,7 @@ import {
 } from 'lucide-react'
 import './App.css'
 
-const asset = (name) => `/assets/twice/optimized/${name}`
+const asset = (name) => `${import.meta.env.BASE_URL}assets/twice/optimized/${name}`
 
 const members = [
   ['Nayeon', 'Lead light', 'nayeon.webp', 'open-tone vocal, bright first impression'],
