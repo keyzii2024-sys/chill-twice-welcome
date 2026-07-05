@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react'
 import {
-  ArrowUpRight,
   Disc3,
   Film,
   Headphones,
@@ -29,52 +28,36 @@ const cases = [
     icon: Film,
     kicker: 'Viewing Room',
     title: 'THIS IS FOR 360 Stage',
-    image: 'stage-case.webp',
-    text: '把环形舞台、屏幕纵深和观众视线重新编排成沉浸式欢迎仪式。',
+    image: 'live-las-vegas-01.webp',
+    text: 'Stage lights · live voices · ONCE wave',
   },
   {
     icon: Disc3,
     kicker: 'Music Film',
     title: 'TEN / ME+YOU / TAKEDOWN',
     image: 'album-preview.webp',
-    text: '以十周年、主打叙事和影视联动热词作为内容索引，形成时间胶囊。',
+    text: '하나, 둘, 셋! One in a million! 안녕하세요, 트와이스입니다.',
   },
   {
     icon: Headphones,
     kicker: 'Archive',
     title: 'Las Vegas Live Memory',
     image: 'live-las-vegas-01.webp',
-    text: '现场素材被处理成更安静的蓝白胶片层，保留热度，降低噪声。',
+    text: '하나, 둘, 셋! One in a million! 안녕하세요, 트와이스입니다.',
   },
 ]
 
-const moodWords = [
-  'Moonlit',
-  'Creamy',
-  'Glass',
-  'Orbit',
-  'Signal',
-  'Stage',
-  'Velvet',
-  'Bloom',
-  'Future',
-  'Once',
-]
-
-const reviewFixes = [
-  '首屏视频改用 1.9MB 轻量版，移动端不加载 38MB 原片。',
-  '所有主图接入本地 optimized 文件，避免外链失效和空白占位。',
-  '成员卡固定比例与最小高度，长文本不会挤压图片。',
-  '导航在手机端收敛为横向短链接，避免遮挡 Hero 标题。',
-  '动效限制在 transform / opacity / filter，减少重排和卡顿。',
-  '玻璃层透明度降低，保证文字对比度和可读性。',
-  '按钮和卡片 hover 幅度压低，避免廉价闪烁感。',
-  '统一 1700px 版心、8px 圆角和零负字距，保持设计克制。',
+const moodAlbums = [
+  ['What is Love?', 'cover-what-is-love.webp'],
+  ['Feel Special', 'cover-feel-special.webp'],
+  ['Talk that Talk', 'cover-talk-that-talk.webp'],
 ]
 
 function App() {
   const [activeMember, setActiveMember] = useState(0)
   const [mode, setMode] = useState('Dream')
+  const [loveVersion, setLoveVersion] = useState('vinyl')
+  const [easterEgg, setEasterEgg] = useState(false)
   const active = members[activeMember]
 
   const dotField = useMemo(
@@ -98,7 +81,7 @@ function App() {
           <a href="#members">Roles</a>
           <a href="#cases">Cinema</a>
           <a href="#interaction">Interact</a>
-          <a href="#quality">QA</a>
+          <a href="#love">Love?</a>
         </div>
         <a className="nav-action" href="#interaction" aria-label="Open interaction section">
           <WandSparkles size={18} />
@@ -117,35 +100,50 @@ function App() {
         />
         <div className="hero-veil" />
         <div className="hero-content">
-          <p className="eyebrow">AI visual designer / ONCE-facing portfolio study</p>
+          <p className="eyebrow">TWICE archive / ONCE welcome room</p>
           <h1>
             <span>Chill‘s</span>
             <span>TWICE Welcome</span>
           </h1>
           <div className="hero-copy glass">
             <p>
-              一个梦幻、温暖、克制的 TWICE 视觉欢迎页：把近期热词、演出影像和成员角色转译成高端作品集式体验。
+              从 Nayeon 到 Tzuyu，九位成员把明亮、浪漫、舞台能量和电影感编织成一场属于 ONCE 的欢迎仪式。
             </p>
-            <a className="primary-link" href="#cases">
+            <a
+              className="primary-link"
+              href="#love"
+              onClick={(event) => {
+                event.preventDefault()
+                setEasterEgg(true)
+                window.setTimeout(() => document.getElementById('love')?.scrollIntoView({ behavior: 'smooth' }), 420)
+              }}
+            >
               <Play size={17} />
-              View cases
+              Open love scene
             </a>
           </div>
         </div>
-        <div className="hero-metrics glass">
+        <div className={`hero-metrics glass ${easterEgg ? 'is-awake' : ''}`}>
           <span>2026 scan</span>
-          <strong>THIS IS FOR</strong>
-          <span>360 stage / TEN / ME+YOU</span>
+          <strong>{easterEgg ? 'What is Love?' : 'THIS IS FOR'}</strong>
+          <span>{easterEgg ? 'secret scene unlocked' : '360 stage / TEN / ME+YOU'}</span>
         </div>
+        {easterEgg && (
+          <div className="love-burst" aria-hidden="true">
+            {Array.from({ length: 10 }, (_, index) => (
+              <i key={index} style={{ '--i': index }} />
+            ))}
+          </div>
+        )}
       </section>
 
       <section className="intro-band section-wrap">
         <div>
-          <p className="section-kicker">Content Structure</p>
-          <h2>把“女团素材库”整理成四层网页叙事</h2>
+          <p className="section-kicker">Opening line</p>
+          <h2>One spark, nine hearts.</h2>
         </div>
         <div className="structure-grid">
-          {['Hero video memory', 'Nine role portraits', 'Viewing cases + posters', 'Interactive mood lab'].map(
+          {['Stage light', 'Nine members', 'Love cinema', 'ONCE signal'].map(
             (item, index) => (
               <article className="structure-card glass" key={item}>
                 <span>{String(index + 1).padStart(2, '0')}</span>
@@ -158,8 +156,8 @@ function App() {
 
       <section className="members-section section-wrap" id="members">
         <div className="section-heading">
-          <p className="section-kicker">Role Index</p>
-          <h2>九位成员作为九种视觉语气</h2>
+          <p className="section-kicker">One in a million</p>
+          <h2>Nine names, one heartbeat.</h2>
         </div>
         <div className="members-layout">
           <article className="featured-member glass">
@@ -193,7 +191,7 @@ function App() {
       <section className="cases-section section-wrap" id="cases">
         <div className="section-heading wide">
           <p className="section-kicker">Cinema / Works / Posters</p>
-          <h2>观影内容、作品案例与视觉海报被压进同一个温柔蓝调系统</h2>
+          <h2>The Feels, framed in stage light.</h2>
         </div>
         <div className="case-grid">
           {cases.map(({ icon: Icon, ...item }) => (
@@ -227,14 +225,11 @@ function App() {
             ))}
           </div>
           <div className="interaction-copy">
-            <p className="section-kicker">ReactBits-inspired interaction</p>
+            <p className="section-kicker">ONCE signal</p>
             <h2 className="kinetic-title">
               <span>{mode}</span>
-              <span>signal system</span>
+              <span>love signal</span>
             </h2>
-            <p>
-              参考 ReactBits 的 Aurora、DotField、Orbit Images、Magnet Lines 和文字动效，转写成更轻的本地实现。
-            </p>
             <div className="mode-switch" role="group" aria-label="visual mood mode">
               {['Dream', 'Blue', 'Cream', 'Stage'].map((item) => (
                 <button
@@ -250,35 +245,72 @@ function App() {
           </div>
           <div className={`mood-lab mood-${mode.toLowerCase()}`}>
             <Sparkles className="spark-icon" size={24} />
-            {moodWords.map((word, index) => (
-              <span className={`word-fx fx-${(index % 6) + 1}`} key={word}>
-                {word}
-              </span>
+            {moodAlbums.map(([title, cover], index) => (
+              <article className={`love-note note-${index + 1}`} key={title}>
+                <img src={asset(cover)} alt={`${title} album cover`} loading="lazy" />
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <strong>{title}</strong>
+              </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="quality-section section-wrap" id="quality">
-        <div className="section-heading">
-          <p className="section-kicker">First-view QA</p>
-          <h2>已优先修掉的低级不适点</h2>
+      <section className="love-section section-wrap" id="love">
+        <div className="section-heading wide">
+          <p className="section-kicker">What is Love?</p>
+          <h2>Two cuts for one classic scene.</h2>
         </div>
-        <div className="quality-grid">
-          {reviewFixes.map((fix, index) => (
-            <article className="quality-card glass" key={fix}>
-              <span>{index + 1}</span>
-              <p>{fix}</p>
-            </article>
-          ))}
+        <div className="love-switch" role="group" aria-label="What is Love visual version">
+          <button className={loveVersion === 'vinyl' ? 'is-active' : ''} onClick={() => setLoveVersion('vinyl')} type="button">
+            Vinyl cut
+          </button>
+          <button className={loveVersion === 'mv' ? 'is-active' : ''} onClick={() => setLoveVersion('mv')} type="button">
+            MV cut
+          </button>
         </div>
+
+        {loveVersion === 'vinyl' ? (
+          <article className="love-player glass">
+            <div className="vinyl-scene" aria-label="What is Love vinyl player concept">
+              <div className="vinyl-disc">
+                <img src={asset('what-is-love-thumb.webp')} alt='TWICE "What is Love?" official MV scene' loading="lazy" />
+              </div>
+              <div className="tone-arm" />
+            </div>
+            <div className="love-copy">
+              <p className="section-kicker">Version A</p>
+              <h3>Play it like a memory.</h3>
+              <div className="lyric-player" aria-label='Short lyric loop from TWICE "What is Love?"'>
+                <span>LYRIC LOOP</span>
+                <strong>What is love? I wanna know.</strong>
+              </div>
+            </div>
+          </article>
+        ) : (
+          <article className="love-mv glass">
+            <div className="mv-frame">
+              <iframe
+                title='TWICE "What is Love?" M/V'
+                src="https://www.youtube.com/embed/i0p1bmr0EmE?rel=0&modestbranding=1"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+            <div className="love-copy">
+              <p className="section-kicker">Version B</p>
+              <h3>Watch it like a film room.</h3>
+              <p>
+                MV 版本直接把官方影像放进页面，保留电影致敬、明亮色彩和 TWICE 早期标志性的少女感。
+              </p>
+            </div>
+          </article>
+        )}
       </section>
 
       <footer className="site-footer section-wrap">
-        <p>Chill‘s TWICE Welcome · AI visual designer portfolio draft</p>
-        <a href="https://www.reactbits.dev/" target="_blank" rel="noreferrer">
-          ReactBits reference <ArrowUpRight size={15} />
-        </a>
+        <p>Chill‘s TWICE Welcome · for TWICE and ONCE</p>
+        <a href="#hero">Back to stage</a>
       </footer>
     </main>
   )
